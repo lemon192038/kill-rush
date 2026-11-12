@@ -99,7 +99,7 @@ export const SIGS: Record<string, string> = {
   dirCombo: 'fist3,dashSlash,launchKick,phantomRush,comboDamage:0.05:8',
   timing: 'fist3,guardBreak,haste,phantomRush,stillAccuracy:0.2',
   chi: 'fist3,healWave,shockwave,flameCombo,cooldownOnHit:0.25',
-  fistCombo: 'fist3,dashPunch,uppercut,flameCombo,comboDamage:0.06:6',
+  fistCombo: 'fist3,dashPunch,guardBreak,flameCombo,comboDamage:0.06:6',
   rhythm: 'fist3,haste,dashPunch,bladeStorm,cooldownOnHit:0.35',
   guardBreak: 'fist3,guardBreak,shieldSelf,bigQuake,closeScaling:0.2',
   comboOrder: 'fist3,uppercut,spinSlash,flameCombo,comboDamage:0.07:5',

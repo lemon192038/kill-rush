@@ -195,7 +195,8 @@ function runOp(w: World, f: Fighter, op: Op, kind: 'skill' | 'ult', ang: number,
       break;
     }
     case 'blink': {
-      let a = ang, dist = op.distance * TILE;
+      let a = ang;
+      const dist = op.distance * TILE;
       let dx = f.x + Math.cos(a) * dist, dy = f.y + Math.sin(a) * dist;
       if (op.behindTarget) {
         const e = nearestEnemy(w, f, op.distance * TILE + TILE);

@@ -165,7 +165,7 @@ function think(w: World, f: Fighter, b: Brain, S: AbilityStats, B: typeof BEHAVI
 
   // ── decide goal position
   let gx = f.x, gy = f.y;
-  let objectiveGoal: { x: number; y: number } | null = objective(w, f, b, B, S);
+  const objectiveGoal: { x: number; y: number } | null = objective(w, f, b, B, S);
   const retreatAt = B.retreatHp * (0.6 + S.tactics * 0.6);
   const retreating = hpF < retreatAt && f.cpu!.personality !== 'BERSERKER' && mode !== 'goal' && !(mode === 'gem' && false);
   const desired = melee ? Math.max(f.radius * 2, range * 0.7) : Math.max(1.6 * TILE, range * (0.45 + B.preferredRange * 0.5));

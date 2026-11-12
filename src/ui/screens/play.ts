@@ -187,7 +187,6 @@ function draftScreen(ctx: Ctx, d: DraftState, rng: Rng) {
   const ov = h('div', { class: 'draft-ov' });
   document.body.appendChild(ov);
   let filter = '';
-  let iv: ReturnType<typeof setInterval>;
   const render = () => {
     ov.innerHTML = '';
     const actor = currentActor(d);
@@ -220,7 +219,7 @@ function draftScreen(ctx: Ctx, d: DraftState, rng: Rng) {
   const advanceCpu = () => {
     // CPU actors act after a short "thinking" delay handled by timer loop
   };
-  iv = setInterval(() => {
+  const iv: ReturnType<typeof setInterval> = setInterval(() => {
     if (d.phase === 'done') return;
     d.timer -= 0.5;
     const actor = currentActor(d);

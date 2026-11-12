@@ -18,7 +18,7 @@ export const newSkill = (): SkillRecord => ({ rating: SKILL_PRIOR, games: 0, win
 export const newCharSkill = (): CharSkill => ({ rating: SKILL_PRIOR, games: 0, wins: 0, losses: 0, pt: 0, sum: { kills: 0, deaths: 0, assists: 0, damage: 0, taken: 0, survival: 0, contribution: 0, maxCombo: 0 } });
 
 /** Weighting (spec initial values). */
-export const MM_WEIGHTS = { overall: 0.6, character: 0.25, recent: 0.15, charFloor: 250, charCeil: 200, sigma: 260, overallConfGames: 20, charConfGames: 10 };
+export const MM_WEIGHTS = { overall: 0.6, character: 0.25, recent: 0.15, charFloor: 250, charCeil: 200, sigma: 260, overallConfGames: 20, charConfGames: 10, targetCap: 2250 };
 
 export function overallEstimate(s: SkillRecord): number {
   const conf = Math.min(1, s.games / MM_WEIGHTS.overallConfGames);
@@ -43,10 +43,11 @@ export function targetRating(s: SkillRecord, c: CharSkill | undefined): number {
 }
 
 /** Rank weights centred on the target rating, keeping some natural spread. */
-export function rankWeights(target: number, mode?: ModeId): number[] {
+export function rankWeights(rawTarget: number, mode?: ModeId): number[] {
+  const target = Math.min(MM_WEIGHTS.targetCap, rawTarget); // prevents all-PRODIGY lobbies from win rate alone
   const sigma = MM_WEIGHTS.sigma * (mode && mode.startsWith('br') ? 1.25 : 1);
   return CPU_RANKS.map(r => {
-    let wgt = Math.pow(RANK_BASE_DIST[r], 0.3) * Math.exp(-((RANK_RATING[r] - target) ** 2) / (2 * sigma * sigma));
+    let wgt = Math.pow(RANK_BASE_DIST[r], 0.6) * Math.exp(-((RANK_RATING[r] - target) ** 2) / (2 * sigma * sigma));
     if (r === 'GENIUS' && target < 1500) wgt = 0;
     if (r === 'PRODIGY' && target < 1800) wgt = 0;
     return wgt;

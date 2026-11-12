@@ -103,7 +103,8 @@ export function openGacha(s: SaveData, kind: GachaKind, count: number, rng: Rng,
     s.gachaPity[kind] = pity;
     if (cat === 'skin') {
       const rar = rng.weighted(RARITIES, RARITIES.map(r => g.skinRarityWeights[r] ?? 0));
-      const pool = SKINS.filter(x => x.gacha && x.rarity === rar);
+      let pool = SKINS.filter(x => x.gacha && x.rarity === rar);
+      if (!pool.length) pool = SKINS.filter(x => x.gacha && x.rarity === 'UNCOMMON'); // COMMON = default skins (not in gacha)
       const sk = rng.pick(pool);
       if (s.ownedSkins.includes(sk.id)) { const cr = ECONOMY.duplicateSkinCredits[sk.rarity]; s.credits += cr; rewards.push({ type: 'credits', amount: cr, label: `${sk.name}（重複→クレジット+${cr}）`, rarity: sk.rarity, duplicate: true }); }
       else { s.ownedSkins.push(sk.id); rewards.push({ type: 'skin', id: sk.id, label: `${sk.name}${s.unlockedChars.includes(sk.charId) ? '' : '（キャラ未解放）'}`, rarity: sk.rarity }); }
